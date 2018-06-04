@@ -86,11 +86,6 @@ void plan(Mat img,Point source,Point goal) {
 							g[current.p.x + k][current.p.y + l] = g[current.p.x][current.p.y] + wt;
 							parent[current.p.x + k][current.p.y + l] = Node_(current.p.x,current.p.y,0); //g here dose'nt matter
 
-							if(((current.p.x + k) == goal.x) && ((current.p.y + l) == goal.y)) {
-								reached = true;
-								break;
-							}
-
 							Q.push(Node_(current.p.x + k,current.p.y + l,f_cur));
 				}
 			}
@@ -99,11 +94,8 @@ void plan(Mat img,Point source,Point goal) {
 			// imshow("expansion",show_expanding);
 			// waitKey(1);
 			}
-			if(reached)
-				break;
+			
 		} //end of relaxation
-		if(reached)
-			break;
 
 	} //end of djikstra's loop
 
