@@ -62,22 +62,22 @@ void plan(Mat img,Point source,Point goal) {
 			for(int l = -1;l <= 1;l++) {
 				if(k == 0 & l == 0) continue; //if we get the current point
 				if(isValid(current.p.x + k,current.p.y + l,obstacles)) {
-					// if(visited[current.p.x + k][current.p.y + l] == 0) {
+					if(visited[current.p.x + k][current.p.y + l] == 0) {
 						double wt = 1.0;
 						if((fabs(k) + fabs(l)) != 1) wt = 1.414;
 						if(distance[current.p.x][current.p.y] + wt < distance[current.p.x + k][current.p.y + l]) {
-							show_expanding.at<uchar>(current.p.y,current.p.x) = 255;
+							show_expanding.at<uchar>(current.p.y,current.p.x) = 128;
 							distance[current.p.x + k][current.p.y + l] = distance[current.p.x][current.p.y] + wt;
 							parent[current.p.x + k][current.p.y + l] = Node_(current.p.x,current.p.y,0); //distance here dose'nt matter
 
 							if(((current.p.x + k) == goal.x) && ((current.p.y + l) == goal.y)) {
-								reached = true;
-								break;
+								//reached = true;
+								//break;
 							}
 
 							Q.push(Node_(current.p.x + k,current.p.y + l,distance[current.p.x][current.p.y] + wt));
 				}
-			// }
+			}
 			}
 			// imshow("expansion",show_expanding);
 			// waitKey(1);
@@ -118,15 +118,16 @@ void plan(Mat img,Point source,Point goal) {
 	// imshow("EXPANDED",show_expanding);
 	waitKey(0);
 	imwrite("Output.png",img);
+	imwrite("Expanded_Nodes.png",show_expanding);
 }
 
 int main() {
 	clock_t t;
 	t = clock();
-	Mat img = imread("chinti.png",0);
+	Mat img = imread("map.png",0);
 	// Mat img(1000,1000,CV_8UC1,Scalar(0));
-	Point source(300,450);
-	Point goal(300,100);
+	Point source(10,10);
+	Point goal(img.cols-1,img.rows-1);
 
 	if(isValid(goal.x,goal.y,img))
 		plan(img,source,goal);
