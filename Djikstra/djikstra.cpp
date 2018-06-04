@@ -62,18 +62,13 @@ void plan(Mat img,Point source,Point goal) {
 			for(int l = -1;l <= 1;l++) {
 				if(k == 0 & l == 0) continue; //if we get the current point
 				if(isValid(current.p.x + k,current.p.y + l,obstacles)) {
-					if(visited[current.p.x + k][current.p.y + l] == 0) {
+					// if(visited[current.p.x + k][current.p.y + l] == 0) {
 						double wt = 1.0;
 						if((fabs(k) + fabs(l)) != 1) wt = 1.414;
 						if(distance[current.p.x][current.p.y] + wt < distance[current.p.x + k][current.p.y + l]) {
 							show_expanding.at<uchar>(current.p.y,current.p.x) = 128;
 							distance[current.p.x + k][current.p.y + l] = distance[current.p.x][current.p.y] + wt;
 							parent[current.p.x + k][current.p.y + l] = Node_(current.p.x,current.p.y,0); //distance here dose'nt matter
-
-							if(((current.p.x + k) == goal.x) && ((current.p.y + l) == goal.y)) {
-								//reached = true;
-								//break;
-							}
 
 							Q.push(Node_(current.p.x + k,current.p.y + l,distance[current.p.x][current.p.y] + wt));
 				}
@@ -82,12 +77,8 @@ void plan(Mat img,Point source,Point goal) {
 			// imshow("expansion",show_expanding);
 			// waitKey(1);
 			}
-			if(reached)
-				break;
-		} //end of relaxation
-		if(reached)
-			break;
-
+		 //end of relaxation
+			
 	} //end of djikstra's loop
 
 	cout << "End of loop\n";
@@ -124,6 +115,7 @@ void plan(Mat img,Point source,Point goal) {
 int main() {
 	clock_t t;
 	t = clock();
+
 	Mat img = imread("map.png",0);
 	// Mat img(1000,1000,CV_8UC1,Scalar(0));
 	Point source(10,10);
